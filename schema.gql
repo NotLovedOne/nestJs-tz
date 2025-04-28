@@ -1,0 +1,94 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreateEventInput {
+  eventDate: String!
+  location: String
+  title: String!
+}
+
+input CreateFightInput {
+  eventId: Int!
+  participantsIds: [Int!]!
+  weightClass: String!
+}
+
+input CreateFighterInput {
+  fullName: String!
+  weightClass: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Event {
+  eventDate: DateTime!
+  id: Int!
+  location: String
+  title: String!
+}
+
+type Fight {
+  event: Event!
+  id: Int!
+  participants: [Fighter!]!
+  resultJson: JSONObject
+  weightClass: String
+}
+
+type Fighter {
+  fullName: String!
+  id: Int!
+  losses: Int!
+  weightClass: String!
+  wins: Int!
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject
+
+type Mutation {
+  createEvent(input: CreateEventInput!): Event!
+  createFight(createFightInput: CreateFightInput!): Fight!
+  createFighter(input: CreateFighterInput!): Fighter!
+  removeEvent(id: Int!): Event!
+  removeFight(id: Int!): Fight!
+  updateEvent(updateEventInput: UpdateEventInput!): Event!
+  updateFight(updateFightInput: UpdateFightInput!): Fight!
+}
+
+type Query {
+  event(id: Int!): Event!
+  events: [Event!]!
+  fight(id: Int!): Fight!
+  fighters: [Fighter!]!
+  fights: [Fight!]!
+  ranking(id: Int!): Ranking!
+  rankings: [Ranking!]!
+}
+
+type Ranking {
+  fighter: Fighter!
+  id: Int!
+  position: Int!
+  weightClass: String!
+}
+
+input UpdateEventInput {
+  eventDate: String
+  id: Int!
+  location: String
+  title: String
+}
+
+input UpdateFightInput {
+  eventId: Int
+  id: Int!
+  participantsIds: [Int!]
+  weightClass: String
+}
