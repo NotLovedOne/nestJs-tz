@@ -1,5 +1,5 @@
-
-CREATE TABLE fighters (
+  
+```CREATE TABLE fighters (
             id SERIAL PRIMARY KEY,
             full_name VARCHAR(120) NOT NULL,
             weight_class VARCHAR(30) NOT NULL,
@@ -38,6 +38,6 @@ ALTER TABLE fighters
         ADD COLUMN submissions INT DEFAULT 0,
         ADD COLUMN nationality VARCHAR(120),
         ADD COLUMN team        VARCHAR(120);
-
+```
 
 ![Снимок экрана 2025-04-30 172428](https://github.com/user-attachments/assets/125a9951-e06d-438f-bf62-2905a38cc14c)
