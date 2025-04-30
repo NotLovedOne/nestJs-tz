@@ -9,9 +9,9 @@ export class EventsResolver {
   constructor(private readonly eventsService: EventsService) {}
 
   @Mutation(() => Event)
-  createEvent(@Args('input') input: CreateEventInput) {  // ← новое имя
+  createEvent(@Args('input') input: CreateEventInput) {  
   return this.eventsService.create(input);
-}
+  }
 
   @Query(() => [Event], { name: 'events' })
   findAll() {
@@ -32,4 +32,10 @@ export class EventsResolver {
   removeEvent(@Args('id', { type: () => Int }) id: number) {
     return this.eventsService.remove(id);
   }
+
+  @Query(() => [Event])
+  upcomingEvents() {
+    return this.eventsService.upcoming();
+  }
+
 }

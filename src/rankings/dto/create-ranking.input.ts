@@ -2,6 +2,9 @@ import { InputType, Int, Field } from '@nestjs/graphql';
 
 @InputType()
 export class CreateRankingInput {
-  @Field(() => Int, { description: 'Example field (placeholder)' })
-  exampleField: number;
+  @Field() weightClass: string;
+
+  @Field(() => Int) fighterId: number;
+
+  @Field(() => Int) position: number;
 }

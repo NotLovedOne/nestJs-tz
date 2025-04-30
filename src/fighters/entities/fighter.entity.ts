@@ -26,7 +26,12 @@ export class Fighter {
   @Column({ default: 0 })
   losses: number;
 
-  /* связи */
+  @Field(() => Int) @Column({ default: 0 }) knockouts: number;
+  @Field(() => Int) @Column({ default: 0 }) submissions: number;
+
+  @Field({ nullable: true }) @Column({ nullable: true }) nationality?: string;
+  @Field({ nullable: true }) @Column({ nullable: true }) team?: string;
+
   @ManyToMany(() => Fight, fight => fight.participants)
   fights: Fight[];
 

@@ -1,18 +1,19 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Fighter } from 'src/fighters/entities/fighter.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({name: 'rankings'})
 @ObjectType()
 export class Ranking {
   @Field(() => Int)  @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()          @Column()
+  @Field()          @Column({name: 'weight_class'})
   weightClass: string;
 
   @Field(() => Fighter)
   @ManyToOne(() => Fighter, f => f.rankings, { onDelete: 'CASCADE' })
+  @JoinColumn({name: 'fighter_id'})
   fighter: Fighter;
 
   @Field(() => Int) @Column()

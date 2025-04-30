@@ -1,0 +1,67 @@
+Table "todo" {
+  "done" bool
+  "id" int8 [pk, not null, increment]
+  "description" varchar(255)
+  "title" varchar(255)
+}
+
+Table "migrations" {
+  "id" int4 [pk, not null, increment]
+  "timestamp" int8 [not null]
+  "name" varchar [not null]
+}
+
+Table "fighters" {
+  "id" int4 [pk, not null, increment]
+  "full_name" varchar(120) [not null]
+  "weight_class" varchar(30) [not null]
+  "wins" int4 [default: 0]
+  "losses" int4 [default: 0]
+  "knockouts" int4 [default: 0]
+  "submissions" int4 [default: 0]
+  "nationality" varchar(120)
+  "team" varchar(120)
+}
+
+Table "events" {
+  "id" int4 [pk, not null, increment]
+  "title" varchar(120) [not null]
+  "event_date" date [not null]
+  "location" varchar(120)
+}
+
+Table "fights" {
+  "id" int4 [pk, not null, increment]
+  "event_id" int4
+  "weight_class" varchar(30)
+  "result_json" jsonb
+  "fight_order" int4
+}
+
+Table "fight_participants" {
+  "fight_id" int4 [not null]
+  "fighter_id" int4 [not null]
+
+  Indexes {
+    (fight_id, fighter_id) [type: btree, name: "fight_participants_pkey"]
+  }
+}
+
+Table "rankings" {
+  "id" int4 [pk, not null, increment]
+  "weight_class" varchar(30) [not null]
+  "fighter_id" int4
+  "position" int4 [not null]
+
+  Indexes {
+    (weight_class, position) [type: btree, name: "rankings_weight_class_position_key"]
+  }
+}
+
+Ref "fight_participants_fight_id_fkey":"fights"."id" < "fight_participants"."fight_id" [delete: cascade]
+
+Ref "fight_participants_fighter_id_fkey":"fighters"."id" < "fight_participants"."fighter_id" [delete: cascade]
+
+Ref "fights_event_id_fkey":"events"."id" < "fights"."event_id" [delete: cascade]
+
+Ref "rankings_fighter_id_fkey":"fighters"."id" < "rankings"."fighter_id" [delete: cascade]

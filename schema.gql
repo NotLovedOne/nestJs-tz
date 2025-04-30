@@ -16,6 +16,16 @@ input CreateFightInput {
 
 input CreateFighterInput {
   fullName: String!
+  knockouts: Int! = 0
+  nationality: String
+  submissions: Int! = 0
+  team: String
+  weightClass: String!
+}
+
+input CreateRankingInput {
+  fighterId: Int!
+  position: Int!
   weightClass: String!
 }
 
@@ -42,7 +52,11 @@ type Fight {
 type Fighter {
   fullName: String!
   id: Int!
+  knockouts: Int!
   losses: Int!
+  nationality: String
+  submissions: Int!
+  team: String
   weightClass: String!
   wins: Int!
 }
@@ -54,8 +68,9 @@ scalar JSONObject
 
 type Mutation {
   createEvent(input: CreateEventInput!): Event!
-  createFight(createFightInput: CreateFightInput!): Fight!
+  createFight(input: CreateFightInput!): Fight!
   createFighter(input: CreateFighterInput!): Fighter!
+  createRanking(input: CreateRankingInput!): Ranking!
   removeEvent(id: Int!): Event!
   removeFight(id: Int!): Fight!
   updateEvent(updateEventInput: UpdateEventInput!): Event!
@@ -70,6 +85,7 @@ type Query {
   fights: [Fight!]!
   ranking(id: Int!): Ranking!
   rankings: [Ranking!]!
+  upcomingEvents: [Event!]!
 }
 
 type Ranking {

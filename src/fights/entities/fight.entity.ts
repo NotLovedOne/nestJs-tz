@@ -1,10 +1,10 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { Event } from '../../events/entities/event.entity';
 import { Fighter } from '../../fighters/entities/fighter.entity';
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Event } from '../../events/entities/event.entity';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { GraphQLJSONObject } from 'graphql-type-json';
 
-@Entity()
+@Entity({name : 'fights'})
 @ObjectType()
 export class Fight {
   @Field(() => Int)  @PrimaryGeneratedColumn()
@@ -12,13 +12,14 @@ export class Fight {
 
   @Field(() => Event)
   @ManyToOne(() => Event, e => e.fights, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'event_id' }) 
   event: Event;
 
-  @Field({ nullable: true }) @Column({ nullable: true })
+  @Field({ nullable: true }) @Column({ nullable: true ,name: 'weight_class'})
   weightClass?: string;
 
   @Field(() => GraphQLJSONObject, { nullable: true }) 
-  @Column({ type: 'jsonb', nullable: true })
+  @Column({ type: 'jsonb', nullable: true,name: 'result_json' })
   resultJson?: Record<string, unknown>;
 
   @Field(() => [Fighter])

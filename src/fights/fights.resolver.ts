@@ -9,8 +9,8 @@ export class FightsResolver {
   constructor(private readonly fightsService: FightsService) {}
 
   @Mutation(() => Fight)
-  createFight(@Args('createFightInput') createFightInput: CreateFightInput) {
-    return this.fightsService.create(createFightInput);
+  createFight(@Args('input') input: CreateFightInput) {
+    return this.fightsService.create(input);
   }
 
   @Query(() => [Fight], { name: 'fights' })

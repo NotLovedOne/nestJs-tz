@@ -9,30 +9,36 @@ import { Repository } from 'typeorm';
 @Injectable()
 export class RankingsService {
   constructor(
-    @InjectRepository(Ranking) private rankingRepo: Repository<Ranking>,
-    @InjectRepository(Fighter) private fighterRepo: Repository<Fighter>,
+    @InjectRepository(Ranking)
+    private readonly rankingRepo: Repository<Ranking>,
+    @InjectRepository(Fighter)
+    private readonly fighterRepo: Repository<Fighter>,
   ) {}
 
-  /** ТОЛЬКО ЧТЕНИЕ ---------------------------------------------------- */
-  findAll() {
-    return this.rankingRepo.find({
-      relations: { fighter: true },
-      order: { weightClass: 'ASC', position: 'ASC' },
+  async create(input: CreateRankingInput): Promise<Ranking> {
+    const fighter = await this.fighterRepo.findOneBy({ id: input.fighterId });
+    if (!fighter) throw new Error('Fighter not found');
+
+    const ranking = this.rankingRepo.create({
+      weightClass: input.weightClass,
+      position: input.position,
+      fighter,
     });
+
+    return this.rankingRepo.save(ranking);
   }
 
-  findOne(id: number) {
-    return this.rankingRepo.findOne({
-      where: { id },
-      relations: { fighter: true },
-    });
+  async findAll(): Promise<Ranking[]> {
+    return this.rankingRepo.find({ relations: ['fighter'] });
   }
 
-  /** ПЕРЕСЧЁТ --------------------------------------------------------- */
+  async findOne(id: number): Promise<Ranking | null> {
+    return this.rankingRepo.findOne({ where: { id }, relations: ['fighter'] });
+  }
+  
+
   async recalc(weightClass: string) {
     const fighters = await this.fighterRepo.find({ where: { weightClass } });
-
-    // высчитываем очки во временном массиве, не трогаем entity
     const rated = fighters
       .map(f => ({
         fighter: f,

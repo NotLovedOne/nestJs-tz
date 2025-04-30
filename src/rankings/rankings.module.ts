@@ -8,5 +8,6 @@ import { Fighter } from 'src/fighters/entities/fighter.entity';
 @Module({
   imports : [TypeOrmModule.forFeature([Ranking, Fighter]), ],
   providers: [RankingsResolver, RankingsService],
+  exports: [RankingsService]
 })
 export class RankingsModule {}

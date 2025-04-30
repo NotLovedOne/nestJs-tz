@@ -8,6 +8,11 @@ import { UpdateRankingInput } from './dto/update-ranking.input';
 export class RankingsResolver {
   constructor(private readonly rankingsService: RankingsService) {}
 
+  @Mutation(() => Ranking)
+  createRanking(@Args('input') input: CreateRankingInput) {
+    return this.rankingsService.create(input);
+  }
+
   @Query(() => [Ranking], { name: 'rankings' })
   findAll() {
     return this.rankingsService.findAll();
