@@ -1,10 +1,20 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
+import { IsInt, IsNotEmpty, IsString, Min } from 'class-validator';
 
 @InputType()
 export class CreateRankingInput {
-  @Field() weightClass: string;
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  weightClass: string;
 
-  @Field(() => Int) fighterId: number;
+  @Field(() => Int)
+  @IsInt()
+  @Min(1)
+  fighterId: number;
 
-  @Field(() => Int) position: number;
+  @Field(() => Int)
+  @IsInt()
+  @Min(1)
+  position: number;
 }

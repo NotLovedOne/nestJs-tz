@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { FightersModule } from './fighters/fighters.module';
 import { EventsModule } from './events/events.module';
 import { FightsModule } from './fights/fights.module';
@@ -23,13 +21,12 @@ import { GraphQLJSONObject } from 'graphql-type-json';
     }),
 
     GraphQLModule.forRoot({
-      driver: ApolloDriver, 
+      driver: ApolloDriver,
       autoSchemaFile: 'schema.gql',
       sortSchema: true,
-      resolvers: {                       
-        JSONObject: GraphQLJSONObject,          
+      resolvers: {
+        JSONObject: GraphQLJSONObject,
       },
-
     }),
 
     FightersModule,
